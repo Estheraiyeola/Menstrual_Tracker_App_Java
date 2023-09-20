@@ -9,5 +9,5 @@ public interface UserDetailsRepository {
     void delete(UserDetails details);
     long count();
     void clear();
-
+    UserDetails findByUsername(String username);
 }

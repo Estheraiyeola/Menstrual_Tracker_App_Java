@@ -60,4 +60,12 @@ public class UserDetailsRepositoryImpl implements UserDetailsRepository{
         count -= userDetailsList.size();
         userDetailsList.removeAll(userDetailsList);
     }
+
+    @Override
+    public UserDetails findByUsername(String username) {
+        for (UserDetails userDetails:userDetailsList) {
+            if (userDetails.getUsername().equals(username)) return userDetails;
+        }
+        return null;
+    }
 }

@@ -92,7 +92,7 @@ public class MenstrualCalculatorRepositoryTest {
         assertNull(menstrualCalculatorRepository.findById(3));
     }
     @Test
-    public void testThat_All_PhonebooksCanBeDeleted(){
+    public void testThat_All_InformationsCanBeDeleted(){
         MenstrualCalculator menstrualCalculator = new MenstrualCalculator();
         menstrualCalculator.setCycleLength(28);
         menstrualCalculatorRepository.save(menstrualCalculator);

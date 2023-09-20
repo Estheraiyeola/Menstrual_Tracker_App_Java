@@ -6,7 +6,7 @@ public class UserDetails {
     private String lastName;
     private int age;
     private boolean isRegular;
-    private int cycleLength;
+    private String password;
 
     public int getId() {
         return id;
@@ -48,14 +48,18 @@ public class UserDetails {
         isRegular = regular;
     }
 
-    public int getCycleLength() {
-        return cycleLength;
+    public String getPassword() {
+        return password;
     }
 
-    public void setCycleLength(int cycleLength) {
-        this.cycleLength = cycleLength;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setDetails(UserDetails details) {
+    }
+
+    public String getUsername() {
+        return firstName + " " + lastName;
     }
 }

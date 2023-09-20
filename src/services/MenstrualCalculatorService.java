@@ -7,11 +7,6 @@ public class MenstrualCalculatorService {
     MenstrualCalculator menstrualCalculator = new MenstrualCalculator();
 
 
-    public MenstrualCalculatorService(){
-        this.averageCycleLength = 0;
-        this.periodLength = 0;
-    }
-
     public void calculateAverageMenstrualCycle(int firstMonth, int secondMonth, int thirdMonth) {
         this.averageCycleLength = (firstMonth + secondMonth + thirdMonth) / 3;
         menstrualCalculator.setCycleLength(this.averageCycleLength);

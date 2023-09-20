@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import services.UserDetailsService;
 import data.repository.UserDetailsRepository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserDetailsServiceTest {
     private UserDetailsService userDetailsService;
@@ -18,16 +17,16 @@ public class UserDetailsServiceTest {
     }
     @Test
     public void testThat_A_User_CanRegister(){
-        userDetailsService.register("Esther", "Aiyeola", 25);
+        userDetailsService.register("Esther", "Aiyeola", 25, "password");
         assertEquals("Esther", userDetailsService.findUser(1).getFirstName());
     }
 
     @Test
     public void testThat_More_Users_CanRegister_AndBeFound(){
-        userDetailsService.register("Esther", "Aiyeola", 25);
-        userDetailsService.register("Sola", "Java", 25);
-        userDetailsService.register("Bola", "Syntax", 25);
-        userDetailsService.register("Deborah", "Maven", 25);
+        userDetailsService.register("Esther", "Aiyeola", 25, "password");
+        userDetailsService.register("Sola", "Java", 25, "password");
+        userDetailsService.register("Bola", "Syntax", 25, "password");
+        userDetailsService.register("Deborah", "Maven", 25, "password");
 
         assertEquals("Esther", userDetailsService.findUser(1).getFirstName());
         assertEquals("Sola", userDetailsService.findUser(2).getFirstName());
@@ -37,10 +36,10 @@ public class UserDetailsServiceTest {
     }
     @Test
     public void testThat_A_User_CanUpdateTheirDetails(){
-        userDetailsService.register("Esther", "Aiyeola", 25);
-        userDetailsService.register("Sola", "Java", 25);
-        userDetailsService.register("Bola", "Syntax", 25);
-        userDetailsService.register("Deborah", "Maven", 25);
+        userDetailsService.register("Esther", "Aiyeola", 25,"password");
+        userDetailsService.register("Sola", "Java", 25, "password");
+        userDetailsService.register("Bola", "Syntax", 25, "password");
+        userDetailsService.register("Deborah", "Maven", 25, "password");
 
         assertEquals("Esther", userDetailsService.findUser(1).getFirstName());
         assertEquals("Sola", userDetailsService.findUser(2).getFirstName());
@@ -55,10 +54,10 @@ public class UserDetailsServiceTest {
     }
     @Test
     public void testThat_A_User_CanDeleteTheirDetails(){
-        userDetailsService.register("Esther", "Aiyeola", 25);
-        userDetailsService.register("Sola", "Java", 25);
-        userDetailsService.register("Bola", "Syntax", 25);
-        userDetailsService.register("Deborah", "Maven", 25);
+        userDetailsService.register("Esther", "Aiyeola", 25, "password");
+        userDetailsService.register("Sola", "Java", 25, "password");
+        userDetailsService.register("Bola", "Syntax", 25, "password");
+        userDetailsService.register("Deborah", "Maven", 25, "password");
 
         assertEquals("Esther", userDetailsService.findUser(1).getFirstName());
         assertEquals("Sola", userDetailsService.findUser(2).getFirstName());
@@ -71,10 +70,10 @@ public class UserDetailsServiceTest {
     }
     @Test
     public void testThatAll_UsersCanBeCleared(){
-        userDetailsService.register("Esther", "Aiyeola", 25);
-        userDetailsService.register("Sola", "Java", 25);
-        userDetailsService.register("Bola", "Syntax", 25);
-        userDetailsService.register("Deborah", "Maven", 25);
+        userDetailsService.register("Esther", "Aiyeola", 25, "password");
+        userDetailsService.register("Sola", "Java", 25, "password");
+        userDetailsService.register("Bola", "Syntax", 25, "password");
+        userDetailsService.register("Deborah", "Maven", 25, "password");
 
         assertEquals("Esther", userDetailsService.findUser(1).getFirstName());
         assertEquals("Sola", userDetailsService.findUser(2).getFirstName());
@@ -86,6 +85,21 @@ public class UserDetailsServiceTest {
         assertNull(userDetailsService.findUser(2));
         assertNull(userDetailsService.findUser(3));
         assertNull(userDetailsService.findUser(4));
+
+    }
+    @Test
+    public void testThatIf_Password_isIncorrect_User_Cannnot_Login(){
+        userDetailsService.register("Esther", "Aiyeola", 25, "password");
+        userDetailsService.register("Sola", "Java", 25, "password");
+        userDetailsService.register("Bola", "Syntax", 25, "password");
+        userDetailsService.register("Deborah", "Maven", 25, "password");
+
+        assertEquals("Esther", userDetailsService.findUser(1).getFirstName());
+        assertEquals("Sola", userDetailsService.findUser(2).getFirstName());
+        assertEquals("Bola", userDetailsService.findUser(3).getFirstName());
+        assertEquals("Deborah", userDetailsService.findUser(4).getFirstName());
+
+        assertFalse(userDetailsService.authentication("Esther", "Aiyeola", "pass"));
 
     }
 }
