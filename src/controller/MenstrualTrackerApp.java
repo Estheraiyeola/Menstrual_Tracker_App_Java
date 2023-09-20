@@ -93,6 +93,21 @@ public class MenstrualTrackerApp {
         }
     }
 
+    private void logOut() {
+    }
+
+    private void getNextPeriodDate() {
+    }
+
+    private void getAverageFlowLength() {
+    }
+
+    private void checkFertilePeriod() {
+    }
+
+    private void checkSafePeriod() {
+    }
+
     private void updateFirstName() {
         try{
             UserDetails userDetails = userDetailsRepository.findByUsername(firstname + lastname);
