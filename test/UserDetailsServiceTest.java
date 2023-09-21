@@ -99,7 +99,7 @@ public class UserDetailsServiceTest {
         assertEquals("Bola", userDetailsService.findUser(3).getFirstName());
         assertEquals("Deborah", userDetailsService.findUser(4).getFirstName());
 
-        assertFalse(userDetailsService.authentication("Esther", "Aiyeola", "pass"));
+        assertFalse(userDetailsService.authentication("Esther", "Aiyeola", "passw"));
 
     }
 }

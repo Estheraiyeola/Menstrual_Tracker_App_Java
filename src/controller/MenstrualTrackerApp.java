@@ -1,16 +1,31 @@
 package controller;
 
+import data.models.MenstrualCalculator;
 import data.models.UserDetails;
+import data.repository.MenstrualCalculatorRepository;
+import data.repository.MenstrualCalculatorRepositoryImpl;
 import data.repository.UserDetailsRepository;
 import data.repository.UserDetailsRepositoryImpl;
+import services.MenstrualCalculatorService;
 import services.UserDetailsService;
 
 import javax.swing.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.InputMismatchException;
 
 public class MenstrualTrackerApp {
     UserDetailsService userDetailsService = new UserDetailsService();
     UserDetailsRepository userDetailsRepository = new UserDetailsRepositoryImpl();
+    MenstrualCalculatorService menstrualCalculatorService = new MenstrualCalculatorService();
+    MenstrualCalculatorRepository menstrualCalculatorRepository = new MenstrualCalculatorRepositoryImpl();
+    MenstrualCalculator menstrualCalculator = new MenstrualCalculator();
+    LocalDate localDate = LocalDate.now();
+
+
+
     private String firstname;
     private String lastname;
 
@@ -59,14 +74,19 @@ public class MenstrualTrackerApp {
             String firstName = input("What is your first name: ");
             String lastName = input("What is your last name: ");
             String password = input("What is your password: ");
-            userDetailsService.authentication(firstName, lastName, password);
-            this.firstname = firstName;
-            this.lastname = lastName;
-            mainMenu();
-        }catch (InputMismatchException e){
+            boolean validate = userDetailsService.authentication(firstName, lastName, password);
+            if (validate) {
+                this.firstname = firstName;
+                this.lastname = lastName;
+                mainMenu();
+            }
+        }catch (InputMismatchException | NullPointerException e){
             display(e.getMessage());
             landingPage();
         }
+    }
+
+    private void validate(String password) {
     }
 
     private void mainMenu() {
@@ -94,18 +114,46 @@ public class MenstrualTrackerApp {
     }
 
     private void logOut() {
+        display("Logging out");
+        landingPage();
     }
 
     private void getNextPeriodDate() {
+        try {
+            int firstDayOfLastPeriod = Integer.parseInt(input("How many days ago did you start your last period? "));
+            long result = menstrualCalculatorService.calculateNextPeriodDate(firstDayOfLastPeriod);
+            display("Your next period date will be " + localDate.plusDays(result));
+        }catch(InputMismatchException | NullPointerException e){
+            display(e.getMessage());
+            mainMenu();
+        }
     }
 
     private void getAverageFlowLength() {
+        try {
+            int firstMonth = Integer.parseInt(input("What was your cycle 3 months ago? "));
+            int secondMonth = Integer.parseInt(input("What was your cycle 2 months ago? "));
+            int thirdMonth = Integer.parseInt(input("What was your cycle 1 months ago? "));
+            menstrualCalculatorService.calculateAverageMenstrualCycle(firstMonth, secondMonth, thirdMonth);
+            menstrualCalculator.setCycleLength(menstrualCalculatorService.getAverageMenstrualCycle());
+            display(menstrualCalculator.getCycleLength() + "");
+            mainMenu();
+        }catch (InputMismatchException e){
+            display(e.getMessage());
+            mainMenu();
+        }
     }
 
     private void checkFertilePeriod() {
+        try {
+            int periodLength = Integer.parseInt(input("How many days on average is your period? "));
+            display(menstrualCalculatorService.calculateSafePeriods(periodLength));
+            display(menstrualCalculatorService.getFirstDayOf_FirstRangeOfPeriod() + " ");
+        }
     }
 
     private void checkSafePeriod() {
+
     }
 
     private void updateFirstName() {
@@ -127,7 +175,6 @@ public class MenstrualTrackerApp {
             String lastName = input("What is your last name: ");
             int age = Integer.parseInt(input("What is your age: "));
             String password = input("What is your password: ");
-            UserDetailsService userDetailsService = new UserDetailsService();
             userDetailsService.register(firstName, lastName, age, password);
             logInPage();
         }catch (InputMismatchException e){
