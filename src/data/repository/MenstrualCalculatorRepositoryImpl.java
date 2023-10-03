@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MenstrualCalculatorRepositoryImpl implements MenstrualCalculatorRepository{
     private long count;
-    private List<MenstrualCalculator> menstrualDetails = new ArrayList<>();
+    private final List<MenstrualCalculator> menstrualDetails = new ArrayList<>();
 
     @Override
     public MenstrualCalculator findById(int id) {
